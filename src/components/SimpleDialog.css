@@ -1,0 +1,8 @@
+.container{
+    display: flex;
+    padding: 5px;
+}
+
+.sub-container{
+    margin-right: 10px;
+}
