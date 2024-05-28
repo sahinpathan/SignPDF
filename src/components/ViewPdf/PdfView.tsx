@@ -67,10 +67,19 @@ const styles = StyleSheet.create({
   }
 });
 
+export interface DynamicPdfHtml {
+  title?: string; // Optional title for the PDF
+  listItems: string[]; // Array of list items
+  independentContractorText?: string; // Optional text for "Independent Contractor" section
+  signatureImg?: string; // Base64 encoded image data for signature
+  signatureDate?: string; // Date for the signature section
+  footerText?: string; // Optional text for the footer
+}
 type TPdfView = {
   signatureImg:string;
   signatureDate:string;
   handleChange?: () => void;
+  dynamicHtml:DynamicPdfHtml;
 }
 
 const listItems = [
@@ -78,7 +87,7 @@ const listItems = [
   "hello"
 ];
 
-const PdfView = ({ signatureImg, signatureDate, handleChange }: TPdfView) => {
+const PdfView = ({ signatureImg, signatureDate, handleChange ,dynamicHtml }: TPdfView) => {
  
   useEffect(() => {
     if (handleChange) {
@@ -87,34 +96,71 @@ const PdfView = ({ signatureImg, signatureDate, handleChange }: TPdfView) => {
   }, [signatureImg,handleChange])
   
   return (
-    <Document>
-      <Page style={styles.body} wrap size={'A3'}>
+    // <Document>
+    //   <Page style={styles.body} wrap size={'A3'}>
 
-        <View style={styles.list}>
-          {listItems.map((item, index) => (
-            <View key={index} style={styles.listItem}>
-              <Text orphans={100}>
-                <Text orphans={1000} style={styles.list}>{index + 1}. </Text>
-                <Text orphans={100} style={styles.text}>{item}</Text>
-              </Text>
-            </View>
-          ))}
-        </View>
-        <Text orphans={100}  style={styles.subtext}>Independent Contractor</Text>
-        <Text orphans={100} style={styles.footer}>By:</Text>
-        {signatureImg && <Image
-          style={styles.signature}
-          src={signatureImg}
-        />}
-        <Text orphans={100} style={styles.footer}>Date: {signatureDate}</Text>
-        <Text
-          style={styles.pageNumber}
-          render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
-          fixed
-        />
-      </Page>
-    </Document>
+    //     <View style={styles.list}>
+    //       {listItems.map((item, index) => (
+    //         <View key={index} style={styles.listItem}>
+    //           <Text orphans={100}>
+    //             <Text orphans={1000} style={styles.list}>{index + 1}. </Text>
+    //             <Text orphans={100} style={styles.text}>{item}</Text>
+    //           </Text>
+    //         </View>
+    //       ))}
+    //     </View>
+    //     <Text orphans={100}  style={styles.subtext}>Independent Contractor</Text>
+    //     <Text orphans={100} style={styles.footer}>By:</Text>
+    //     {signatureImg && <Image
+    //       style={styles.signature}
+    //       src={signatureImg}
+    //     />}
+    //     <Text orphans={100} style={styles.footer}>Date: {signatureDate}</Text>
+    //     <Text
+    //       style={styles.pageNumber}
+    //       render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
+    //       fixed
+    //     />
+    //   </Page>
+    // </Document>
+<Document>
+    <Page style={styles.body} wrap size={'A3'}>
+      {dynamicHtml.title && <Text>{dynamicHtml.title}</Text>}
 
+      <View style={styles.list}>
+        {dynamicHtml.listItems.map((item, index) => (
+          <View key={index} style={styles.listItem}>
+            <Text orphans={100}>
+              <Text orphans={1000} style={styles.list}>{index + 1}. </Text>
+              <Text orphans={100} style={styles.text}>{item}</Text>
+            </Text>
+          </View>
+        ))}
+      </View>
+
+      <Text orphans={100} style={styles.subtext}>
+        {dynamicHtml.independentContractorText || 'Independent Contractor'}
+      </Text>
+
+      <Text orphans={100} style={styles.footer}>
+        {dynamicHtml.footerText || 'By:'}
+      </Text>
+
+      {signatureImg && (
+        <Image style={styles.signature} src={signatureImg} />
+      )}
+
+      <Text orphans={100} style={styles.footer}>
+        Date: {dynamicHtml.signatureDate || '---'}
+      </Text>
+
+      <Text
+        style={styles.pageNumber}
+        render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
+        fixed
+      />
+    </Page>
+  </Document>
   )
 };
 

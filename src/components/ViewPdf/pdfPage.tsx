@@ -1,10 +1,14 @@
 import { PDFViewer } from '@react-pdf/renderer';
-import { PdfView } from './PdfView';
+import { DynamicPdfHtml, PdfView } from './PdfView';
 import { useContext } from 'react';
 import { MyContext } from '../../context/SignatureProvider';
 
 
-function PdfPage() {
+type TPDFPage = {
+  dynamicHtml:DynamicPdfHtml;
+}
+
+function PdfPage({dynamicHtml}:TPDFPage) {
   const context = useContext(MyContext) || {signature:""}!;
     
   console.log("context",context?.signature)
@@ -22,6 +26,7 @@ function PdfPage() {
           // handleChange={handleChange}
           signatureImg={context?.signature}
           signatureDate={new Date().toISOString()}
+          dynamicHtml={dynamicHtml} 
         />
       </PDFViewer>
     </>
