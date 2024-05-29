@@ -74,6 +74,7 @@ export interface DynamicPdfHtml {
   signatureImg?: string; // Base64 encoded image data for signature
   signatureDate?: string; // Date for the signature section
   footerText?: string; // Optional text for the footer
+  logo?: string;
 }
 type TPdfView = {
   signatureImg:string;
@@ -82,10 +83,6 @@ type TPdfView = {
   dynamicHtml:DynamicPdfHtml;
 }
 
-const listItems = [
-  "hi",
-  "hello"
-];
 
 const PdfView = ({ signatureImg, signatureDate, handleChange ,dynamicHtml }: TPdfView) => {
  
@@ -96,35 +93,15 @@ const PdfView = ({ signatureImg, signatureDate, handleChange ,dynamicHtml }: TPd
   }, [signatureImg,handleChange])
   
   return (
-    // <Document>
-    //   <Page style={styles.body} wrap size={'A3'}>
-
-    //     <View style={styles.list}>
-    //       {listItems.map((item, index) => (
-    //         <View key={index} style={styles.listItem}>
-    //           <Text orphans={100}>
-    //             <Text orphans={1000} style={styles.list}>{index + 1}. </Text>
-    //             <Text orphans={100} style={styles.text}>{item}</Text>
-    //           </Text>
-    //         </View>
-    //       ))}
-    //     </View>
-    //     <Text orphans={100}  style={styles.subtext}>Independent Contractor</Text>
-    //     <Text orphans={100} style={styles.footer}>By:</Text>
-    //     {signatureImg && <Image
-    //       style={styles.signature}
-    //       src={signatureImg}
-    //     />}
-    //     <Text orphans={100} style={styles.footer}>Date: {signatureDate}</Text>
-    //     <Text
-    //       style={styles.pageNumber}
-    //       render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
-    //       fixed
-    //     />
-    //   </Page>
-    // </Document>
+   
 <Document>
     <Page style={styles.body} wrap size={'A3'}>
+    {dynamicHtml.logo && (
+         <Image
+         style={styles.image}
+         src={dynamicHtml.logo}
+       />
+      )}
       {dynamicHtml.title && <Text>{dynamicHtml.title}</Text>}
 
       <View style={styles.list}>
