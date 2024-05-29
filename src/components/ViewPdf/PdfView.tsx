@@ -78,13 +78,12 @@ export interface DynamicPdfHtml {
 }
 type TPdfView = {
   signatureImg:string;
-  signatureDate:string;
   handleChange?: () => void;
   dynamicHtml:DynamicPdfHtml;
 }
 
 
-const PdfView = ({ signatureImg, signatureDate, handleChange ,dynamicHtml }: TPdfView) => {
+const PdfView = ({ signatureImg, handleChange ,dynamicHtml }: TPdfView) => {
  
   useEffect(() => {
     if (handleChange) {

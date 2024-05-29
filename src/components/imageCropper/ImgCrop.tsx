@@ -53,56 +53,46 @@ function ImgCrop({handleClose}:Props) {
         [completedCrop, 1, 0],
     )
 
-    async function onDownloadCropClick() {
-        const image = imgRef.current;
-        const previewCanvas = previewCanvasRef.current;
+    async function onDownloadCropClick(): Promise<void> {
+        const image: HTMLImageElement | null = imgRef.current;
+        const previewCanvas: HTMLCanvasElement | null = previewCanvasRef.current;
+      
         if (!image || !previewCanvas || !completedCrop) {
-            throw new Error('Crop canvas does not exist');
+          throw new Error('Crop canvas does not exist');
         }
-    
-        // This will size relative to the uploaded image
-        // size. If you want to size according to what they
-        // are looking at on screen, remove scaleX + scaleY
+      
         const scaleX = image.naturalWidth / image.width;
         const scaleY = image.naturalHeight / image.height;
-    
-        const offscreen = new OffscreenCanvas(
-            completedCrop.width * scaleX,
-            completedCrop.height * scaleY
+      
+        // Use Node.js canvas module
+        const canvas = require('canvas').createCanvas(
+          completedCrop.width * scaleX,
+          completedCrop.height * scaleY
         );
-        const ctx = offscreen.getContext('2d');
+        const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
+      
         if (!ctx) {
-            throw new Error('No 2d context');
+          throw new Error('No 2d context for canvas');
         }
-    
+      
         ctx.drawImage(
-            previewCanvas,
-            0,
-            0,
-            previewCanvas.width,
-            previewCanvas.height,
-            0,
-            0,
-            offscreen.width,
-            offscreen.height
+          previewCanvas,
+          0,
+          0,
+          previewCanvas.width,
+          previewCanvas.height,
+          0,
+          0,
+          canvas.width,
+          canvas.height
         );
-    
-        // Convert OffscreenCanvas to a regular canvas
-        const canvas = document.createElement('canvas');
-        canvas.width = offscreen.width;
-        canvas.height = offscreen.height;
-        const ctx2 = canvas.getContext('2d');
-        if (!ctx2) {
-            throw new Error('No 2d context for canvas');
-        }
-        ctx2.drawImage(offscreen, 0, 0);
-    
+      
         // Convert canvas to base64 string
-        const base64String = canvas.toDataURL('image/png');
-        setSignature(base64String)
+        const base64String: string = canvas.toDataURL('image/png');
+        setSignature(base64String);
         handleClose();
-    }
-    
+      }
+        
 
     return (
         <>

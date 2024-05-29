@@ -25,7 +25,6 @@ function PdfPage({dynamicHtml}:TPDFPage) {
         <PdfView
           // handleChange={handleChange}
           signatureImg={context?.signature}
-          signatureDate={new Date().toISOString()}
           dynamicHtml={dynamicHtml} 
         />
       </PDFViewer>

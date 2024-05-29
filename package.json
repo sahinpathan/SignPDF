@@ -3,7 +3,14 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "main": "index.ts",
+  "main": "dist/index.js",
+  "description": "A React component library for append signature to yor document and render it using react-pdf",
+  "keywords": [
+    "react",
+    "SignPdf",
+    "Signature"
+  ],
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -20,6 +27,7 @@
     "react-image-crop": "^11.0.5"
   },
   "devDependencies": {
+    "@types/node": "^20.12.12",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
