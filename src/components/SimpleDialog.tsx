@@ -29,7 +29,7 @@ function SimpleDialog(props: SimpleDialogProps) {
       <DialogTitle>Add Signature</DialogTitle>
       <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {isUpload ? (<ImgCrop handleClose={handleClose}/>):(<h1>ohhh</h1>)}
+            {isUpload ? (<ImgCrop handleClose={handleClose}/>):null}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

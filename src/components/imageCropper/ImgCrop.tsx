@@ -1,7 +1,7 @@
 import { Button } from '@mui/material'
 import { useContext, useRef, useState } from 'react'
 import ReactCrop, { PixelCrop, type Crop } from 'react-image-crop'
-import 'react-image-crop/dist/ReactCrop.css'
+import 'react-image-crop/dist/ReactCrop.css';
 import { MyContext } from '../../context/SignatureProvider'
 import FileUpload from './FileUpload'
 import { canvasPreview } from './canvasPreview'
@@ -53,46 +53,46 @@ function ImgCrop({handleClose}:Props) {
         [completedCrop, 1, 0],
     )
 
+
     async function onDownloadCropClick(): Promise<void> {
-        const image: HTMLImageElement | null = imgRef.current;
-        const previewCanvas: HTMLCanvasElement | null = previewCanvasRef.current;
-      
-        if (!image || !previewCanvas || !completedCrop) {
-          throw new Error('Crop canvas does not exist');
-        }
-      
-        const scaleX = image.naturalWidth / image.width;
-        const scaleY = image.naturalHeight / image.height;
-      
-        // Use Node.js canvas module
-        const canvas = require('canvas').createCanvas(
-          completedCrop.width * scaleX,
-          completedCrop.height * scaleY
-        );
-        const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
-      
-        if (!ctx) {
-          throw new Error('No 2d context for canvas');
-        }
-      
-        ctx.drawImage(
-          previewCanvas,
-          0,
-          0,
-          previewCanvas.width,
-          previewCanvas.height,
-          0,
-          0,
-          canvas.width,
-          canvas.height
-        );
-      
-        // Convert canvas to base64 string
-        const base64String: string = canvas.toDataURL('image/png');
-        setSignature(base64String);
-        handleClose();
+      const image: HTMLImageElement | null = imgRef.current;
+      const previewCanvas: HTMLCanvasElement | null = previewCanvasRef.current;
+    
+      if (!image || !previewCanvas || !completedCrop) {
+        throw new Error('Crop canvas does not exist');
       }
-        
+    
+      const scaleX = image.naturalWidth / image.width;
+      const scaleY = image.naturalHeight / image.height;
+    
+      // Create a new canvas element
+      const canvas = document.createElement('canvas');
+      canvas.width = completedCrop.width * scaleX;
+      canvas.height = completedCrop.height * scaleY;
+      const ctx: CanvasRenderingContext2D | null = canvas.getContext('2d');
+    
+      if (!ctx) {
+        throw new Error('No 2d context for canvas');
+      }
+    
+      ctx.drawImage(
+        previewCanvas,
+        completedCrop.x * scaleX,
+        completedCrop.y * scaleY,
+        completedCrop.width * scaleX,
+        completedCrop.height * scaleY,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+    
+      // Convert canvas to base64 string
+      const base64String: string = canvas.toDataURL('image/png');
+      setSignature(base64String);
+      handleClose();
+    }
+    
 
     return (
         <>
