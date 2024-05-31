@@ -67,6 +67,10 @@ const styles = StyleSheet.create({
   }
 });
 
+interface DynamicClass{
+  container?:string;
+  subContainer?:string;
+}
 export interface DynamicPdfHtml {
   title?: string; // Optional title for the PDF
   listItems: string[]; // Array of list items
@@ -75,6 +79,7 @@ export interface DynamicPdfHtml {
   signatureDate?: string; // Date for the signature section
   footerText?: string; // Optional text for the footer
   logo?: string;
+  class?: DynamicClass;
 }
 type TPdfView = {
   signatureImg:string;

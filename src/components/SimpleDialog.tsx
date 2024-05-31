@@ -2,7 +2,6 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import "./SimpleDialog.css";
 import { DialogActions, DialogContent, DialogContentText } from '@mui/material';
 import ImgCrop from './imageCropper/ImgCrop';
 
@@ -16,10 +15,11 @@ export interface SimpleDialogProps {
 interface SimpleDialogDemoProps {
   title: string;
   isUpload?:boolean;
+  subContainer?:string;
 }
 function SimpleDialog(props: SimpleDialogProps) {
   const { onClose, open,isUpload } = props;
-
+  
   const handleClose = () => {
     onClose();
   };
@@ -29,7 +29,7 @@ function SimpleDialog(props: SimpleDialogProps) {
       <DialogTitle>Add Signature</DialogTitle>
       <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {isUpload ? (<ImgCrop handleClose={handleClose}/>):null}
+            {isUpload ? (<ImgCrop handleClose={handleClose}/>):<h1>Hi</h1>}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -42,7 +42,7 @@ function SimpleDialog(props: SimpleDialogProps) {
   );
 }
 
-export default function SimpleDialogDemo({title,isUpload = false}:SimpleDialogDemoProps) {
+export default function SimpleDialogDemo({title,isUpload = false,subContainer}:SimpleDialogDemoProps) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -53,7 +53,7 @@ export default function SimpleDialogDemo({title,isUpload = false}:SimpleDialogDe
   };
 
   return (
-    <div className='sub-container'>
+    <div className={subContainer}>
       <Button  variant="outlined" onClick={handleClickOpen}>
         {title}
       </Button>
