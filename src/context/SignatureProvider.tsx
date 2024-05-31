@@ -9,7 +9,6 @@ export const MyContext = createContext<SignatureContextType | undefined>(undefin
 
 export const SignatureProvider: React.FC<{children:ReactNode}> = ({ children }) => {
     const [signature, setSignature] = useState<string>("");
-    console.log("signaturesignaturesignature",signature)
     return (
       <MyContext.Provider value={{ signature, setSignature }}>
         {children}
