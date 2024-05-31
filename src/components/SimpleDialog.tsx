@@ -4,6 +4,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import { DialogActions, DialogContent, DialogContentText } from '@mui/material';
 import ImgCrop from './imageCropper/ImgCrop';
+import DrawSignature from './drawSignature/DrawSignature';
 
 
 export interface SimpleDialogProps {
@@ -29,7 +30,7 @@ function SimpleDialog(props: SimpleDialogProps) {
       <DialogTitle>Add Signature</DialogTitle>
       <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {isUpload ? (<ImgCrop handleClose={handleClose}/>):<h1>Hi</h1>}
+            {isUpload ? (<ImgCrop handleClose={handleClose}/>):(<DrawSignature handleClose={handleClose}/>)}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
